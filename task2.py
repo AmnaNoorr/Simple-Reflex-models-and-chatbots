@@ -1,15 +1,18 @@
+import random
+
 def reflex_vacuum_agent_3sq(location, status):
     """
     Pure Simple Reflex Agent for 3 locations (A, B, C).
     Decides action strictly based on current (location, status) percept.
-    No memory or internal state is maintained.
+    Uses randomized movement at B to avoid infinite ping-pong loops.
     """
     if status == "Dirty":
         return "Suck"
     elif location == "A":
         return "Right"
     elif location == "B":
-        return "Right"  # Traversal pattern: A -> B -> C -> B -> A
+        # Random choice prevents the agent from getting stuck infinitely between (A <-> B) or (B <-> C)
+        return random.choice(["Left", "Right"])
     elif location == "C":
         return "Left"
 
@@ -79,6 +82,7 @@ def main():
             elif location == "B":
                 location = "A"
             print(f"  -> Action: Moved Left from {old_loc} to {location}.\n")
+            
 
     print("="*45)
     print("FINAL ENVIRONMENT STATE:", env)
